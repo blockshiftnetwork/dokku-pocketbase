@@ -2,6 +2,7 @@
 
 FROM alpine:3.6
 
+# You can change Pocketbase version here
 ARG POCKETBASE_VERSION=0.5.2
 
 # Install the dependencies
@@ -13,12 +14,10 @@ RUN apk add --no-cache \
     zlib-dev \
     bash
 
-# Download Pocketbase and install it for AMD64
+# Download Pocketbase
 ADD https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_linux_amd64.zip /tmp/pocketbase.zip
 RUN unzip /tmp/pocketbase.zip -d /app
 RUN chmod +x /app/pocketbase
-
-
 
 # Start Pocketbase
 CMD [ "/app/pocketbase", "serve", "--http=0.0.0.0:5000" ]
