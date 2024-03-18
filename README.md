@@ -21,9 +21,10 @@ To install Pocketbase, follow these steps:
 3. Create a Dokku app on your server using the command: `dokku apps:create pocketbase`.
 4. Ensure the creation of a persistent storage by running: `dokku storage:ensure-directory pocketbase`.
 5. Mount the storage into the Pocketbase app using: `dokku storage:mount pocketbase /var/lib/dokku/data/storage/pocketbase:/app/pb_data`.
-6. Add the Dokku remote by executing: `git remote add dokku dokku@ipOrHosthere:pocketbase`.
-7. Push the code to your Dokku remote using: `git push dokku main`.
-8. You're done! Pocketbase should now be successfully installed on your server.
+6. Set Pocketbase version using a enviroment Variable (Optional): `dokku config:set pocketbase POCKETBASE_VERSION=0.22.4`
+7. Add the Dokku remote by executing: `git remote add dokku dokku@ipOrHosthere:pocketbase`.
+8. Push the code to your Dokku remote using: `git push dokku main`.
+9. You're done! Pocketbase should now be successfully installed on your server.
 
 ## Customizing Pocketbase Version
 

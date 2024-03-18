@@ -3,7 +3,8 @@
 FROM alpine:3.6
 
 # You can change Pocketbase version here
-ARG POCKETBASE_VERSION=0.13.4
+ARG POCKETBASE_VERSION=0.22.4
+ENV POCKETBASE_VERSION ${POCKETBASE_VERSION}
 
 # Install the dependencies
 RUN apk add --no-cache \
