@@ -28,4 +28,4 @@ To install Pocketbase, follow these steps:
 
 ## Customizing Pocketbase Version
 
-If you wish to use a different version of Pocketbase, you can do so by modifying the Dockerfile. Simply change the value of the `POCKETBASE_VERSION` argument to your desired version.
+If you wish to use a different version of Pocketbase, you can do so by modifying the Dockerfile. Simply change the value of the `POCKETBASE_VERSION` argument to your desired version or just set the POCKETBASE_VERSION enviroment variable on the dokku app.
