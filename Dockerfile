@@ -3,7 +3,7 @@
 FROM alpine:3.6
 
 # You can change Pocketbase version here
-ARG POCKETBASE_VERSION=0.22.4
+ARG POCKETBASE_VERSION=0.22.20
 ENV POCKETBASE_VERSION ${POCKETBASE_VERSION}
 
 # Install the dependencies
