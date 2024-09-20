@@ -30,6 +30,20 @@ To install Pocketbase, follow these steps:
 
 If you wish to use a different version of Pocketbase, you can do so by modifying the Dockerfile. Simply change the value of the `POCKETBASE_VERSION` argument to your desired version or set the `POCKETBASE_VERSION` environment variable on the Dokku app.
 
+## Upgrading Pocketbase Version
+
+To upgrade an existing Pocketbase instance to a new version, use the following Dokku command to add the Pocketbase version as a Docker build argument:
+
+```sh
+dokku docker-options:add pocketbase build '--build-arg POCKETBASE_VERSION=0.22.22'
+```
+
+Then, rebuild the app with:
+
+```sh
+dokku ps:rebuild pocketbase
+```
+
 ## Backups
 
 Since PocketBase v0.16+, there are built-in backups and restore APIs that can be accessed from the Admin UI (Settings > Backups).
@@ -40,7 +54,19 @@ PocketBase can be [used as a framework](https://pocketbase.io/docs/use-as-framew
 
 ## Troubleshooting
 
-If you encounter any issues during installation or usage, please refer to the [Pocketbase Documentation](https://pocketbase.io/docs) or open an issue on this [GitHub repository](https://github.com/AlexR1712/dokku-pocketbase/issues).
+If you encounter any issues during installation or usage, please refer to the [Pocketbase Documentation](https://pocketbase.io/docs) or open an issue on this [GitHub repository](https://github.com/blockshiftnetwork/dokku-pocketbase/issues).
+
+# Need a Custom Solution?
+
+If you're looking for a custom web application or a bespoke solution for your business, we'd love to hear from you. Our team at BlockShift can help you:
+
+- Build a custom Laravel/PHP application tailored to your needs
+- Develop a Vue.js or JavaScript solution for your web or mobile application
+- Provide expert consulting services for your existing application
+
+## Get in Touch
+
+Ready to discuss your project? Contact us today at [blockshift.us](https://blockshift.us/contact/) to learn more about our services and expertise.
 
 ## Contributing
 
