@@ -1,24 +1,30 @@
 # syntax=docker/dockerfile:1
+FROM alpine:3.20
 
-FROM alpine:3.6
+# Build arguments
+ARG POCKETBASE_VERSION=0.22.21
+ARG TARGETOS=linux
+ARG TARGETARCH=amd64
 
-# You can change Pocketbase version here
-ARG POCKETBASE_VERSION=0.22.4
-ENV POCKETBASE_VERSION ${POCKETBASE_VERSION}
+# Environment variables
+ENV POCKETBASE_VERSION=${POCKETBASE_VERSION}
 
-# Install the dependencies
-RUN apk add --no-cache \
-    ca-certificates \
-    unzip \
-    wget \
-    zip \
-    zlib-dev \
-    bash
+# Set working directory
+WORKDIR /app
 
-# Download Pocketbase
-ADD https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_linux_amd64.zip /tmp/pocketbase.zip
-RUN unzip /tmp/pocketbase.zip -d /app
-RUN chmod +x /app/pocketbase
+# Hadolint ignore=DL3018
+RUN apk add --no-cache ca-certificates && \
+    wget -O pocketbase.zip "https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_${TARGETOS}_${TARGETARCH}.zip" && \
+    unzip pocketbase.zip && \
+    rm pocketbase.zip && \
+    chmod +x pocketbase
+
+
+# Copy hooks
+COPY ./pb_hooks /app/pb_hooks
+
+# Dokku-specific: Use $PORT environment variable
+ENV PORT=5000
 
 # Start Pocketbase
-CMD [ "/app/pocketbase", "serve", "--http=0.0.0.0:5000" ]
+CMD ["sh", "-c", "/app/pocketbase serve --http=0.0.0.0:$PORT"]
