@@ -2,76 +2,100 @@
 
 ![Pocketbase Logo](https://user-images.githubusercontent.com/8460736/188195613-01a44972-24eb-459c-a437-cdfa34b1bf73.png)
 
-[Pocketbase](https://pocketbase.io) is an open-source backend for your next SaaS and mobile app, designed to be implemented with just one file.
+[Pocketbase](https://pocketbase.io) is a powerful, open-source backend designed for SaaS and mobile applications, all implemented with a single file.
 
-## Documentation
+## Pocketbase Documentation
 
-To learn more about Pocketbase and how to use it, please refer to the [Pocketbase Documentation](https://pocketbase.io/docs).
+For comprehensive Pocketbase usage and implementation details, visit the [Pocketbase Documentation](https://pocketbase.io/docs).
 
-## Demo
+## Pocketbase Live Demo
 
-You can explore a live demo of Pocketbase by visiting the [Live Demo](https://pocketbase.io/demo/) page.
+Experience the capabilities of Pocketbase through the [Live Demo](https://pocketbase.io/demo/).
 
-## Installation
+## How to Install Pocketbase on Dokku
 
-To install Pocketbase, follow these steps:
+To install Pocketbase on a Dokku server, follow these detailed steps:
 
-1. Clone this repository to your local machine.
-2. Navigate to the `dokku-pocketbase` directory: `cd dokku-pocketbase`
-3. Create a Dokku app on your server using the command: `dokku apps:create pocketbase`.
-4. Ensure the creation of a persistent storage by running: `dokku storage:ensure-directory pocketbase`.
-5. Mount the storage into the Pocketbase app using: `dokku storage:mount pocketbase /var/lib/dokku/data/storage/pocketbase:/app/pb_data`.
-6. Set the Pocketbase version using an environment variable (Optional): `dokku config:set pocketbase POCKETBASE_VERSION=0.22.4`
-7. Add the Dokku remote by executing: `git remote add dokku dokku@ipOrHosthere:pocketbase`.
-8. Push the code to your Dokku remote using: `git push dokku main`.
-9. You're done! Pocketbase should now be successfully installed on your server.
+1. **Clone the Repository**: Download the repository onto your local machine.
+   ```sh
+   git clone https://github.com/your-repo/dokku-pocketbase.git
+   ```
+2. **Navigate to Directory**: Change to the `dokku-pocketbase` directory.
+   ```sh
+   cd dokku-pocketbase
+   ```
+3. **Create a Dokku App**: Set up a new Dokku app named `pocketbase` on your server.
+   ```sh
+   dokku apps:create pocketbase
+   ```
+4. **Ensure Persistent Storage**: Create a directory for persistent storage.
+   ```sh
+   dokku storage:ensure-directory pocketbase
+   ```
+5. **Mount Storage**: Attach the persistent storage to your Pocketbase app.
+   ```sh
+   dokku storage:mount pocketbase /var/lib/dokku/data/storage/pocketbase:/app/pb_data
+   ```
+6. **Set Pocketbase Version**: (Optional) Specify the Pocketbase version.
+   ```sh
+   dokku config:set pocketbase POCKETBASE_VERSION=0.22.4
+   ```
+7. **Add Dokku Remote**: Link your local repository to the Dokku remote.
+   ```sh
+   git remote add dokku dokku@<YOUR_SERVER_IP>:pocketbase
+   ```
+8. **Deploy Pocketbase**: Push your application to the Dokku server.
+   ```sh
+   git push dokku main
+   ```
+
+Pocketbase will now be operational on your server.
 
 ## Customizing Pocketbase Version
 
-If you wish to use a different version of Pocketbase, you can do so by modifying the Dockerfile. Simply change the value of the `POCKETBASE_VERSION` argument to your desired version or set the `POCKETBASE_VERSION` environment variable on the Dokku app.
+To select a different Pocketbase version, modify the Dockerfile or set the `POCKETBASE_VERSION` environment variable in your Dokku app.
 
-## Upgrading Pocketbase Version
+## Upgrading Pocketbase
 
-To upgrade an existing Pocketbase instance to a new version, use the following Dokku command to add the Pocketbase version as a Docker build argument:
+Upgrade your Pocketbase instance to a new version with these commands:
 
-```sh
-dokku docker-options:add pocketbase build '--build-arg POCKETBASE_VERSION=0.22.22'
-```
+1. Add Docker build argument:
+   ```sh
+   dokku docker-options:add pocketbase build '--build-arg POCKETBASE_VERSION=0.22.22'
+   ```
+2. Rebuild your app:
+   ```sh
+   dokku ps:rebuild pocketbase
+   ```
 
-Then, rebuild the app with:
+## Pocketbase Backups
 
-```sh
-dokku ps:rebuild pocketbase
-```
+From version 0.16+, Pocketbase includes built-in backup and restore APIs accessible via the Admin UI (Settings > Backups).
 
-## Backups
+## Pocketbase Custom Business Logic
 
-Since PocketBase v0.16+, there are built-in backups and restore APIs that can be accessed from the Admin UI (Settings > Backups).
+Enhance Pocketbase by writing custom business logic in Go or JavaScript. Use the `pb_hooks` directory to create a portable backend. Learn more in the [Pocketbase as a Framework](https://pocketbase.io/docs/use-as-framework/) guide.
 
-## Custom Business Logic
+## Troubleshooting Pocketbase
 
-PocketBase can be [used as a framework](https://pocketbase.io/docs/use-as-framework/) to write your own custom app business logic in Go or JavaScript. You can achieve this by using the `pb_hooks` directory, ensuring you still have a portable backend at the end.
+Consult the [Pocketbase Documentation](https://pocketbase.io/docs) or open an issue on our [GitHub repository](https://github.com/blockshiftnetwork/dokku-pocketbase/issues) for any installation or usage problems.
 
-## Troubleshooting
+# Custom Web and Mobile Solutions
 
-If you encounter any issues during installation or usage, please refer to the [Pocketbase Documentation](https://pocketbase.io/docs) or open an issue on this [GitHub repository](https://github.com/blockshiftnetwork/dokku-pocketbase/issues).
+Seeking a custom web application or a bespoke solution for your business? The BlockShift team can assist with:
 
-# Need a Custom Solution?
+- Custom Laravel/PHP application development
+- Vue.js or JavaScript solutions for web and mobile applications
+- Expert consulting services for existing applications
 
-If you're looking for a custom web application or a bespoke solution for your business, we'd love to hear from you. Our team at BlockShift can help you:
+## Contact Us
 
-- Build a custom Laravel/PHP application tailored to your needs
-- Develop a Vue.js or JavaScript solution for your web or mobile application
-- Provide expert consulting services for your existing application
-
-## Get in Touch
-
-Ready to discuss your project? Contact us today at [blockshift.us](https://blockshift.us/contact/) to learn more about our services and expertise.
+Ready to start your project? Visit [blockshift.us](https://blockshift.us/contact/) and discover more about our services.
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](https://github.com/pocketbase/pocketbase/blob/main/CONTRIBUTING.md) for more details on how to get started.
+We welcome contributions! For details on how to get started, review our [Contributing Guide](/CONTRIBUTING.md).
 
-## License
+## License Information
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. View the [LICENSE](LICENSE) file for more details.
