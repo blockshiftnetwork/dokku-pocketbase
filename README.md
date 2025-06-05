@@ -51,6 +51,26 @@ To install Pocketbase on a Dokku server, follow these detailed steps:
 
 Pocketbase will now be operational on your server.
 
+## Production Environment Variables
+
+When deploying Pocketbase to a production environment on Dokku, it's crucial to configure the following environment variables. These ensure your application runs smoothly and securely.
+
+- `POCKETBASE_ADMIN_EMAIL`: Specifies the email address for the initial administrator account. This account is used to access the Pocketbase admin UI.
+- `POCKETBASE_ADMIN_PASSWORD`: Sets the password for the initial administrator account. Choose a strong, unique password.
+- `POCKETBASE_APP_NAME`: Defines the name of your application. This can be reflected in various parts of the Pocketbase system and UI.
+- `POCKETBASE_APP_URL`: The public URL where your application will be accessible (e.g., `https://your-app.dokku.example.com`). This is important for ensuring Pocketbase generates correct links and for CORS settings if you have a separate frontend.
+
+You can set these environment variables using the `dokku config:set` command. Here's an example for each:
+
+```sh
+dokku config:set pocketbase POCKETBASE_ADMIN_EMAIL=admin@example.com
+dokku config:set pocketbase POCKETBASE_ADMIN_PASSWORD=yourSuperSecretPassword
+dokku config:set pocketbase POCKETBASE_APP_NAME="My Awesome App"
+dokku config:set pocketbase POCKETBASE_APP_URL=https://my-awesome-app.dokku.example.com
+```
+
+Make sure to replace the example values with your actual desired configuration.
+
 ## Customizing Pocketbase Version
 
 To select a different Pocketbase version, modify the Dockerfile or set the `POCKETBASE_VERSION` environment variable in your Dokku app.
@@ -71,6 +91,48 @@ Upgrade your Pocketbase instance to a new version with these commands:
 ## Pocketbase Backups
 
 From version 0.16+, Pocketbase includes built-in backup and restore APIs accessible via the Admin UI (Settings > Backups).
+
+## Backup Strategy
+
+While Pocketbase offers a convenient built-in backup feature through its Admin UI (accessible via Settings > Backups), it's important to establish a robust backup strategy for your production data.
+
+Consider the following recommendations:
+
+- **Regularly Schedule Backups**: Automate your backups to run at regular intervals (e.g., daily or weekly) depending on your data change frequency and recovery point objectives (RPO).
+- **Secure Off-site Storage**: Store your backups in a separate and secure location, preferably off-site from your Dokku server. This could be a cloud storage service (like AWS S3, Google Cloud Storage, Backblaze B2) or another physical server. This protects your data in case of server-level failures.
+- **Test Restore Procedures**: Periodically test your backup restoration process to ensure your backups are valid and can be restored successfully.
+- **Refer to Official Documentation**: For detailed instructions on creating, managing, and restoring backups, always consult the official [Pocketbase Documentation](https://pocketbase.io/docs/backups/). The documentation provides the most up-to-date and comprehensive guidance.
+
+A well-thought-out backup strategy is crucial for data durability and disaster recovery.
+
+## Security Hardening
+
+Securing your Pocketbase instance is vital, especially in a production environment. Here are several recommendations to enhance the security of your deployment:
+
+- **Keep Pocketbase Updated:** Software vulnerabilities are discovered and patched over time. Regularly check the [Pocketbase releases page](https://github.com/pocketbase/pocketbase/releases) and update your instance to the latest version. You can update the `POCKETBASE_VERSION` build argument in your `Dockerfile` or set it as an environment variable in Dokku and rebuild your app.
+
+- **Strong Admin Credentials:** The Pocketbase admin account provides full access to your data and settings.
+    - Use a strong, unique password for this account.
+    - Set the admin email and password via environment variables (`POCKETBASE_ADMIN_EMAIL`, `POCKETBASE_ADMIN_PASSWORD`) as described in the "Production Environment Variables" section. This prevents them from being hardcoded or easily discovered.
+
+- **Secure API Rules:** Pocketbase allows you to define API rules for each collection, controlling who can access and modify data.
+    - Apply the principle of least privilege: only grant the necessary permissions.
+    - Carefully craft your API rules to prevent unauthorized data access or modification. Review these rules regularly, especially when your application logic changes.
+
+- **Enable HTTPS:** Encrypting traffic between your users and your Pocketbase instance is essential.
+    - Dokku offers robust Let's Encrypt integration for free SSL/TLS certificates. This is the recommended way to enable HTTPS.
+    - Refer to the [Dokku SSL documentation](https://dokku.com/docs/networking/ssl/) for detailed instructions on configuring HTTPS for your app.
+
+- **Review Pocketbase Settings:** Within the Pocketbase Admin UI (under Settings), review and configure the following:
+    - **Application Name & URL:** Ensure these are set correctly. The Application URL (`POCKETBASE_APP_URL` environment variable) is particularly important for security features like OAuth2 and email verification.
+    - **Allowed CORS Origins:** If your frontend is hosted on a different domain, specify the allowed origins to prevent cross-site request forgery (CSRF) and other web vulnerabilities. Be as specific as possible.
+    - Other security-related settings as they become available in newer Pocketbase versions.
+
+- **Firewall:** Implement a firewall at the server level (e.g., using `ufw` on Ubuntu).
+    - Restrict access to only necessary ports (typically 80 for HTTP and 443 for HTTPS).
+    - This provides an additional layer of defense against network-based attacks.
+
+By implementing these hardening measures, you can significantly improve the security posture of your Pocketbase application on Dokku.
 
 ## Pocketbase Custom Business Logic
 
